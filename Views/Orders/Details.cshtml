@@ -1,0 +1,63 @@
+﻿@model test1.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+
+    <table class="table table-bordered product-table">
+        <tr>
+            <th>Username</th>
+            <td>@Html.DisplayFor(model => model.User.username)</td>
+        </tr>
+        <tr>
+            <th>Order Date</th>
+            <td>@Html.DisplayFor(model => model.order_date)</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>@Html.DisplayFor(model => model.status)</td>
+        </tr>
+        <tr>
+            <th>Shipping Address</th>
+            <td>@Html.DisplayFor(model => model.shipping_address)</td>
+        </tr>
+        <tr>
+            <th>Payment Method</th>
+            <td>@Html.DisplayFor(model => model.payment_method)</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Nút chức năng -->
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Edit", "Orders", new { id = Model.order_id })'">Edit</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Orders", "Admin")'">Back to list</button>
+</p>
+
+<style>
+    .table th, .table td {
+        text-align: left; 
+        padding: 10px;
+    }
+
+    .table th {
+        width: 30%;
+        background-color: #f2f2f2;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #ddd;
+    }
+</style>

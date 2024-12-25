@@ -1,0 +1,266 @@
+﻿@model IEnumerable<test1.Models.Cart_Items>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/Assets/styles.css">
+<h2>Giỏ hàng</h2>
+@foreach (var item in Model)
+{
+    <div class="cart-item" data-id="@item.product_id">
+        <!-- Phần hình ảnh -->
+        <div class="cart-item-image">
+            <a href="@Url.Action("ItemDetail","Home", new {id = item.product_id})">
+                <img src="@item.Product.Product_Preview_Images.FirstOrDefault().image_url" />
+            </a>
+        </div>
+
+        <!-- Phần thông tin sản phẩm -->
+        <div class="cart-item-info">
+            <a href="@Url.Action("ItemDetail","Home", new {id = item.product_id})" style="text-decoration: none">
+                <span class="cart-item-name">@item.Product.brand @item.Product.name @item.Product.model</span>
+            </a>
+                <p class="cart-item-description">@item.Option.description</p>
+                <p class="cart-item-sale-description">Khuyến mãi: @item.Product.Sale.description</p>
+        </div>
+
+        <!-- Phần giá và điều khiển số lượng -->
+        <div class="cart-item-price-quantity">
+            @{
+                var price = item.Option.price;
+                var originalPrice = ((decimal)price).ToString("#,0");
+
+                if (item.Product.sale_id != null && item.Product.Sale.percentage != 0)
+                {
+                    var newPrice = ((decimal)price * (1 - (decimal)item.Product.Sale.percentage / 100)).ToString("#,0");
+                    var percentage = "-" + item.Product.Sale.percentage.ToString() + "%";
+                        <div class="cart-item-price">
+                            <p class="original-price"><del>@originalPrice đ</del></p> <span style="color: red">@percentage</span>
+                            <p class="new-price" style="font-weight: bold; color: red">@newPrice đ</p>
+                        </div>
+                }
+                else
+                {
+                    var newPrice = originalPrice;
+                    <div class="cart-item-price">
+                        <p class="new-price" style="font-weight: bold; color: red">@newPrice đ</p>
+                    </div>
+                }
+            }
+
+        <div class="cart-item-quantity">
+            <div class="quantity-control">
+                <button type="button" class="btn-decrease" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', -1); calculateTotalCost();"> - </button>
+                <input type="number" id="quantity-@item.cart_item_id" value="@item.quantity" min="1" class="quantity-input" readonly />
+                <button type="button" class="btn-increase" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', 1); calculateTotalCost();"> + </button>
+            </div>
+            <button type="button" class="btn-remove" data-item-id="@item.cart_item_id" onclick="removeItemFromCart('@item.cart_item_id')">Xóa</button>
+        </div>
+        </div>
+    </div>
+}
+
+<p style="text-align: right">Thành tiền: <span id="total-cost"></span></p>
+
+<script>
+    // Tính tổng giá trị giỏ hàng
+    function calculateTotalCost() {
+        let totalCost = 0;
+        const cartItems = document.querySelectorAll('.cart-item');
+
+        cartItems.forEach(item => {
+            const priceElement = item.querySelector('.new-price');
+            let priceText = priceElement ? priceElement.textContent.trim() : '0';
+            let priceValue = parseFloat(priceText.replace(/[,.đ]/g, ''));
+
+            const quantityElement = item.querySelector('.quantity-input');
+            const quantity = quantityElement ? parseInt(quantityElement.value) : 1;
+
+            totalCost += priceValue * quantity;
+        });
+
+        document.getElementById('total-cost').textContent = totalCost.toLocaleString('vi-VN') + ' đ';
+    }
+
+    document.addEventListener('DOMContentLoaded', calculateTotalCost);
+</script>
+
+<script>
+
+    //Update quantity trên cart
+    function updateQuantity(cartItemId, change) {
+        var quantityInput = document.getElementById('quantity-' + cartItemId);
+        var currentQuantity = parseInt(quantityInput.value);
+        var newQuantity = currentQuantity + change;
+        if (newQuantity >= 1) {
+            quantityInput.value = newQuantity;
+
+            //Gửi về server
+            fetch('@Url.Action("UpdateCartItem", "Home")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({
+                    cartItemId: cartItemId,
+                    newQuantity: newQuantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật số lượng thành công!');
+                } else {
+                    alert('Có lỗi xảy ra: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Lỗi:', error));
+        } else {
+            alert("Số lượng không thể nhỏ hơn 1");
+        }
+    }
+</script>
+
+<script>
+    //xóa sp khỏi giỏ
+    function removeItemFromCart(cartItemId) {
+        if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+            fetch('@Url.Action("RemoveCartItem","Home")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({
+                    cartItemId: cartItemId
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        const cartItem = document.querySelector(`.cart-item[data-id="${cartItemId}"]`);
+                        if (cartItem) {
+                            cartItem.remove();
+                            calculateTotalCost();
+                            alert('Sản phẩm đã được xóa khỏi giỏ hàng.');
+                        }
+                    } else {
+                        alert('Có lỗi xảy ra: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Có lỗi xảy ra khi xóa sản phẩm');
+                });
+        }
+    }
+
+</script>
+
+
+<style>
+    /* Container for the cart item */
+    .cart-item {
+        display: flex;
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    /* Phần hình ảnh */
+    .cart-item-image {
+        flex-shrink: 0; /* Đảm bảo hình ảnh không bị co lại */
+        width: 100px; /* Kích thước cố định cho ảnh */
+        height: 100px;
+        margin-right: 20px;
+    }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+        }
+
+    /* Phần thông tin sản phẩm */
+    .cart-item-info {
+        flex-grow: 1; /* Lấy phần còn lại của không gian */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-item-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .cart-item-description,
+    .cart-item-sale-description {
+        font-size: 14px;
+        color: #666;
+    }
+
+    /* Phần giá và điều khiển số lượng */
+    .cart-item-price-quantity {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .cart-item-price {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    .original-price {
+        font-size: 14px;
+        text-decoration: line-through;
+    }
+
+    .new-price {
+        font-size: 16px;
+        color: red;
+        font-weight: bold;
+    }
+
+    /* Điều khiển số lượng */
+    .cart-item-quantity {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
+
+        .quantity-control button {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            margin: 0 10px;
+        }
+
+        .quantity-control button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+</style>

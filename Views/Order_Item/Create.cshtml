@@ -1,0 +1,82 @@
+﻿@model test1.Models.Order_Item
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Order Item</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.order_id, new { Value = (int)ViewBag.order_id })
+        <div class="form-group">
+            @Html.LabelFor(model => model.product_id, "product_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.product_id, new { htmlAttributes = new { @class = "form-control", id = "productInput" } })
+
+                @Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Dropdown option_id (cập nhật thông qua AJAX) -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.option_id, "Option", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.option_id, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "optionDropdown" })
+                @Html.ValidationMessageFor(model => model.option_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <button type="button" onclick="window.location.href='@Url.Action("Index", "Order_Item", new {id = ViewBag.order_id})'">Back to Order Item list</button>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#productInput').on('input', function () {
+            var productId = $(this).val();
+            $.ajax({
+                url: '@Url.Action("GetOptionsByProductId")',
+                type: 'GET',
+                data: { productId: productId },
+                success: function (data) {
+                    $('#optionDropdown').empty();
+                    $.each(data, function (i, option) {
+                        $('#optionDropdown').append($('<option>', {
+                            value: option.option_id,
+                            text: option.description
+                        }));
+                    });
+                },
+                error: function () {
+                    alert('Error loading options');
+                }
+            });
+        });
+    });
+
+</script>

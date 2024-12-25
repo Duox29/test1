@@ -1,0 +1,71 @@
+﻿@model test1.Models.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="panel panel-info" style="max-width: 600px; margin-right: auto;">
+    <div class="panel-heading">
+        <h4>User Details</h4>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered product-table" style="table-layout: fixed; width: 100%;">
+            <colgroup>
+                <col style="width: 35%;">
+                <col style="width: 65%;">
+            </colgroup>
+            <tr>
+                <th>Username</th>
+                <td>@Html.DisplayFor(model => model.username)</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Html.DisplayFor(model => model.email)</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>@Html.DisplayFor(model => model.password)</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>@Html.DisplayFor(model => model.first_name)</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>@Html.DisplayFor(model => model.last_name)</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>@Html.DisplayFor(model => model.phone_number)</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>@Html.DisplayFor(model => model.address_line1)</td>
+            </tr>
+            <tr>
+                <th>Registration Date</th>
+                <td>@Html.DisplayFor(model => model.registration_date)</td>
+            </tr>
+            <tr>
+                <th>Last Login</th>
+                <td>@Html.DisplayFor(model => model.last_login)</td>
+            </tr>
+            <tr>
+                <th>Is Active</th>
+                <td>@Html.DisplayFor(model => model.is_active)</td>
+            </tr>
+            <tr>
+                <th>Role Level</th>
+                <td>@Html.DisplayFor(model => model.role_level)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Edit","Users", new {id = Model.user_id})'">Edit</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Index","Users")'">Back to User list</button>
+</p>

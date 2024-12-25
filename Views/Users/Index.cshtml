@@ -1,0 +1,129 @@
+﻿@model IEnumerable<test1.Models.User>
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+
+<div class="search-container mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <select id="searchType" class="form-control">
+                <option value="">Select Search Type</option>
+                <option value="ID">Search by ID</option>
+                <option value="Username">Search by Username</option>
+                <option value="Email">Search by Email</option>
+            </select>
+        </div>
+        <br />
+        <div class="col-md-4">
+            <input type="text" id="searchTerm" class="form-control" placeholder="Enter search term" />
+        </div>
+        <br/>
+        <div class="col-md-4">
+            <button id="searchButton" class="btn btn-primary">Search</button>
+            <button id="resetButton" class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+</div>
+
+<h2>Users List</h2>
+<table class="table table-bordered product-table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width: 10px;">ID</th>
+            <th style="width: 60px;">Username</th>
+            <th style="width: 140px;">Email</th>
+            <th style="width: 100px;">Password</th>
+            <th style="width: 120px;">Phone Number</th>
+            <th style="width: 180px;">Address</th>
+            <th style="width: 150px;">Registration Date</th>
+            <th style="width: 60px;">Level</th>
+            <th style="width: 150px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="userTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.user_id)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.username)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.email)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.password)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.phone_number)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.address_line1)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.registration_date)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.role_level)</td>
+                <td>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Edit", "Users", new {id = item.user_id})'">Edit</button>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Details", "Users", new {id = item.user_id})'">Details</button>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Delete", "Users", new {id = item.user_id})'">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Create", "Users")'">Create New</button>
+</p>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Search button click handler
+            $('#searchButton').on('click', function() {
+                var searchType = $('#searchType').val();
+                var searchTerm = $('#searchTerm').val();
+
+                // Validate search inputs
+                if (!searchType) {
+                    alert('Please select a search type');
+                    return;
+                }
+
+                if (!searchTerm) {
+                    alert('Please enter a search term');
+                    return;
+                }
+
+                // Perform AJAX search
+                $.ajax({
+                    url: '@Url.Action("Index", "Users")',
+                    type: 'GET',
+                    data: {
+                        searchType: searchType,
+                        searchTerm: searchTerm
+                    },
+                    success: function(result) {
+                        // Replace table body with search results
+                        $('#userTableBody').html($(result).find('#userTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while searching');
+                    }
+                });
+            });
+
+            // Reset button click handler
+            $('#resetButton').on('click', function() {
+                // Reset dropdown and search term
+                $('#searchType').val('');
+                $('#searchTerm').val('');
+
+                // Reload full user list
+                $.ajax({
+                    url: '@Url.Action("Index", "Users")',
+                    type: 'GET',
+                    success: function(result) {
+                        $('#userTableBody').html($(result).find('#userTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while resetting');
+                    }
+                });
+            });
+        });
+    </script>
+}

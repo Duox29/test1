@@ -1,0 +1,147 @@
+﻿@model IEnumerable<test1.Models.Product>
+@{
+    ViewBag.Title = "Product Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Product</h2>
+
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+
+<div class="search-container mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <select id="searchType" class="form-control">
+                <option value="">Select Search Type</option>
+                <option value="ID">Search by ID</option>
+                <option value="Category">Search by Category</option>
+                <option value="Brand">Search by Brand</option>
+            </select>
+        </div>
+        <br />
+        <div class="col-md-4">
+            <input type="text" id="searchTerm" class="form-control" placeholder="Enter search term" />
+        </div>
+        <br />
+        <div class="col-md-4">
+            <button id="searchButton" class="btn btn-primary">Search</button>
+            <button id="resetButton" class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+</div>
+
+
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Create", "Admin")'" id="add-product-btn" class="btn">Create New</button>
+</p>
+
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Description</th>
+            <th>Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="userTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.product_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.category_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @{
+                        string status = item.is_active.HasValue ? (item.is_active.Value ? "Active" : "Inactive") : "Unknown";
+                    }
+                    @status
+                </td>
+                <td>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Edit", "Admin", new { id = item.product_id })'">Edit</button>
+                    <button type="button" class="detail-btn" onclick="window.location.href='@Url.Action("Details", "Admin", new { id = item.product_id })'">Details</button>
+                    <button type="button" onclick="window.location.href='@Url.Action("Delete", "Admin", new { id = item.product_id })'">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Search button click handler
+            $('#searchButton').on('click', function() {
+                var searchType = $('#searchType').val();
+                var searchTerm = $('#searchTerm').val();
+
+                // Validate search inputs
+                if (!searchType) {
+                    alert('Please select a search type');
+                    return;
+                }
+
+                if (!searchTerm) {
+                    alert('Please enter a search term');
+                    return;
+                }
+
+                // Perform AJAX search
+                $.ajax({
+                    url: '@Url.Action("Products", "Admin")',
+                    type: 'GET',
+                    data: {
+                        searchType: searchType,
+                        searchTerm: searchTerm
+                    },
+                    success: function(result) {
+                        // Replace table body with search results
+                        $('#userTableBody').html($(result).find('#userTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while searching');
+                    }
+                });
+            });
+
+            // Reset button click handler
+            $('#resetButton').on('click', function() {
+                // Reset dropdown and search term
+                $('#searchType').val('');
+                $('#searchTerm').val('');
+
+                // Reload full user list
+                $.ajax({
+                    url: '@Url.Action("Products", "Admin")',
+                    type: 'GET',
+                    success: function(result) {
+                        $('#userTableBody').html($(result).find('#userTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while resetting');
+                    }
+                });
+            });
+        });
+    </script>
+}

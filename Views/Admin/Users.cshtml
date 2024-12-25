@@ -1,0 +1,48 @@
+﻿@model IEnumerable<test1.Models.User>
+
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Users List</h2>
+
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Create", "Users")'">Create New</button>
+</p>
+
+<table class="table table-bordered product-table">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width: 10px;">ID</th>
+            <th style="width: 60px;">Username</th>
+            <th style="width: 140px;">Email</th>
+            <th style="width: 100px;">Password</th>
+            <th style="width: 120px;">Phone Number</th>
+            <th style="width: 180px;">Address</th>
+            <th style="width: 150px;">Registration Date</th>
+            <th style="width: 60px;">Level</th>
+            <th style="width: 150px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.user_id)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.username)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.email)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.password)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.phone_number)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.address_line1)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.registration_date)</td>
+                <td class="text-truncate">@Html.DisplayFor(modelItem => item.role_level)</td>
+                <td>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Edit", "Users", new {id = item.user_id})'">Edit</button>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Details", "Users", new {id = item.user_id})'">Details</button>
+                    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Delete", "Users", new {id = item.user_id})'">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

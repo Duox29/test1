@@ -1,0 +1,46 @@
+﻿@model IEnumerable<test1.Models.Option>
+@{
+    ViewBag.Title = "Option";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Option</h2>
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Create", "Options",new {id = ViewBag.product_id})'" id="add-product-btn" class="btn">Create New</button>
+</p>
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+       <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.option_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+           <td>
+                @Html.DisplayFor(modelItem => item.stock)
+            </td>
+           <td>
+               <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Edit", "Options", new { id = item.option_id })'">Edit</button>
+               <button type="button" onclick="window.location.href='@Url.Action("Delete", "Options", new { id = item.option_id })'">Delete</button>
+           </td>
+        </tr>
+    }
+
+</table>
+<br/>
+<button type="button" onclick="window.location.href='@Url.Action("Edit", "Admin", new {id = ViewBag.product_id})'">Back to Edit</button>

@@ -1,0 +1,85 @@
+﻿@model test1.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/Assets/admin.css">
+</head>
+<h2>Details</h2>
+
+<div class="container">
+    <h4 class="mt-4">Product Details</h4>
+    <hr />
+    <table class="table table-bordered table-striped custom-table">
+        <tbody>
+            <tr>
+                <th scope="row">ID</th>
+                <td>@Html.DisplayFor(model => model.product_id)</td>
+            </tr>
+            <tr>
+                <th scope="row">Category</th>
+                <td>@Html.DisplayFor(model => model.Category.category_name)</td>
+            </tr>
+            <tr>
+                <th scope="row">Name</th>
+                <td>@Html.DisplayFor(model => model.name)</td>
+            </tr>
+            <tr>
+                <th scope="row">Brand</th>
+                <td>@Html.DisplayFor(model => model.brand)</td>
+            </tr>
+            <tr>
+                <th scope="row">Model</th>
+                <td>@Html.DisplayFor(model => model.model)</td>
+            </tr>
+            <tr>
+                <th scope="row">Description</th>
+                <td>@Html.DisplayFor(model => model.description)</td>
+            </tr>
+            <tr>
+                <th scope="row">Active</th>
+                <td>
+                    @{
+                        string status = Model.is_active.HasValue ? (Model.is_active.Value ? "Active" : "Inactive") : "Unknown";
+                    }
+                    @status
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Products", "Admin")'">Back to Product</button>
+    <button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("Edit", "Admin", new { id = Model.product_id })'">Edit</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Product_Specifications","Admin",new {id = Model.product_id})'">View Product Specifications</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Option", "Admin", new {id = Model.product_id})'">View Options</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Image_Management", "Image", new {id = Model.product_id})'">View Product Images</button>
+</p>
+<style>
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .custom-table th, .custom-table td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+        }
+
+        .custom-table th {
+            background-color: #f7f7f7;
+            color: #333;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .custom-table td {
+            text-align: left;
+        }
+
+    .custom-table {
+        min-width: 600px;
+    }
+</style>

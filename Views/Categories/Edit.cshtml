@@ -1,0 +1,94 @@
+﻿@model test1.Models.Category
+
+@{
+    ViewBag.Title = "Edit Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit Category</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.category_id)
+
+    <h4>Category Information</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <!-- Table Layout for Edit Form -->
+    <table class="table table-bordered product-table">
+        <!-- Category Name -->
+        <tr>
+            <th>Category Name</th>
+            <td>
+                @Html.EditorFor(model => model.category_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.category_name, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- Description -->
+        <tr>
+            <th>Description</th>
+            <td>
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    </table>
+
+    <!-- Action Buttons -->
+    <div class="form-actions text-center">
+        <!-- Save Button -->
+        <button type="submit" class="btn btn-primary">Save</button>
+
+        <!-- Back to List Button -->
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "Categories")'">Back to List</button>
+    </div>
+}
+
+<!-- CSS -->
+<style>
+    table th {
+        text-align: left;
+        padding-right: 10px;
+        vertical-align: middle;
+        width: 30%;
+    }
+
+    table td {
+        vertical-align: middle;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .form-actions {
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+    }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            opacity: 0.9;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,27 @@
+﻿@model test1.Models.LoginInfo
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/Assets/styles.css">
+
+<main class="main-content">
+    <div class="form-container">
+        <h1>Login</h1>
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <label for="email">Email:</label>
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter your email", required = "required" })
+
+            <label for="password">Password:</label>
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Enter your password", required = "required" })
+
+            <button type="submit" class="form-btn">Login</button>
+        }
+
+        <p>Don't have an account? <a href="@Url.Action("Register", "Home")">Register here</a>.</p>
+        <a href="@Url.Action("Reset","Home")"
+    </div>
+</main>

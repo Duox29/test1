@@ -1,0 +1,155 @@
+﻿@model IEnumerable<test1.Models.Product>
+@{
+    ViewBag.Title = "Home Page";
+}
+<link rel="stylesheet" href="~/Assets/styles.css">
+<main>
+    <!-- Banner -->
+    <div class="banner">
+        <img src="../../Images/banner1.jpg" alt="Mobile Shop Banner" class="banner-image" />
+    </siv>
+    <main class="main-content">
+        <br />
+        <h3>Khuyến mãi khủng</h3>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-2 col-sm-4 mb-4">
+                    <a href="@Url.Action("ItemDetail", "Home", new { id = item.product_id })" class="card-link">
+                        <div class="card">
+                            @{
+                                if (item.Product_Preview_Images != null && item.Product_Preview_Images.Any())
+                                {
+                                    var previewImage = item.Product_Preview_Images.FirstOrDefault();
+                                    <img src="@previewImage.image_url" alt="@item.name" class="card-img-top" />
+                                }
+                                else
+                                {
+                                    <p>No preview image available.</p>
+                                }
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@item.brand @item.name @item.model</h5>
+                                @{
+                                    if (item.Options != null && item.Options.Any())
+                                    {
+                                        var price = item.Options.OrderBy(x => x.price).FirstOrDefault();
+                                        var originalPrice = ((decimal)price.price).ToString("#,0");
+
+                                        if (item.sale_id != null && item.Sale.percentage != 0)
+                                        {
+                                            var newPrice = ((decimal)price.price * (1 - (decimal)item.Sale.percentage / 100)).ToString("#,0");
+                                            var percentage = "-" + item.Sale.percentage.ToString() + "%";
+                                            <div>
+                                                <p class="card-text font-weight-bold">
+                                                    <span style="font-weight: bold; color : red">@newPrice</span>
+                                                    <del>@originalPrice đ</del> <span style="color: red">@percentage</span>
+                                                </p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text font-weight-bold">
+                                                <span style="font-weight: bold; color : red">@originalPrice đ</span>
+                                            </p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>No price available.</p>
+                                    }
+                                }
+                                <a href="@Url.Action("ItemDetail", "Home", new { id = item.product_id })" class="btn btn-primary">Mua ngay</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+
+
+        </div>
+    </main>
+</main>
+@section Scripts {
+    <script>
+        let currentImageIndex = 0;
+        const images = ['../../Images/banner1.jpg', '../../Images/banner2.jpg', '../../Images/banner3.jpg'];
+
+        const bannerImage = document.querySelector('.banner-image');
+        function changeBannerImage() {
+            bannerImage.classList.add('hidden');
+            setTimeout(() => {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                bannerImage.src = images[currentImageIndex];
+                bannerImage.classList.remove('hidden');
+            }, 1000);
+        }
+        setInterval(changeBannerImage, 9000);
+
+    </script>
+}
+<style>
+    .card img {
+        height: 200px;
+        object-fit: contain;
+    }
+
+    .main-content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between
+        height: 100%;
+    }
+
+    .card-title {
+        height: 60px;
+        overflow: hidden;
+        font-size: 16px;
+    }
+
+    .card-text {
+        margin-top: auto;
+    }
+
+    .btn-primary {
+        margin-top: 10px;
+    }
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+        .card-link:hover .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng hover */
+        }
+
+        .card-link .card {
+            transition: box-shadow 0.3s ease; /* Tạo hiệu ứng mượt mà khi hover */
+        }
+
+</style>

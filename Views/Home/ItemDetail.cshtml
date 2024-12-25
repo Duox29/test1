@@ -1,0 +1,291 @@
+﻿@model test1.Models.Product
+@{
+    ViewBag.Title = "ItemDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var images = Model.Product_Images.Select(x => x.image_url).ToList();
+    int currentIndex = 0;
+}
+
+<link rel="stylesheet" href="~/Assets/styles.css">
+
+<div class="image-gallery">
+    <div class="main-image">
+        <img id="largeImage" src="@images.FirstOrDefault()" alt="Product Image" />
+    </div>
+    <div class="thumbnail-row">
+        <button class="prev-btn" onclick="prevImage()">&#8592;</button>
+        @foreach (var image in images)
+        {
+            <img src="@image" class="thumbnail @(currentIndex == 0 ? "active" : "")" onclick="showImage('@image', @currentIndex)" alt="Thumbnail" />
+            currentIndex++;
+        }
+        <button class="next-btn" onclick="nextImage()">&#8594;</button>
+    </div>
+</div>
+
+<div class="product-specification">
+    <table class="product-table">
+        <tr>
+            <th>Operating System</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().os)</td>
+        </tr>
+        <tr>
+            <th>CPU</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().cpu)</td>
+        </tr>
+        <tr>
+            <th>GPU</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().gpu)</td>
+        </tr>
+        <tr>
+            <th>RAM</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().ram)</td>
+        </tr>
+        <tr>
+            <th>ROM</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().rom)</td>
+        </tr>
+        <tr>
+            <th>Camera</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().camera)</td>
+        </tr>
+        <tr>
+            <th>Screen</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().screen)</td>
+        </tr>
+        <tr>
+            <th>Battery</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().battery)</td>
+        </tr>
+        <tr>
+            <th>Charger</th>
+            <td>@Html.DisplayFor(modelItem => Model.Product_Specifications.FirstOrDefault().charger)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="product-option">
+    <h2>@Model.brand @Model.name @Model.model</h2>
+    <br />
+    <h3>@Model.description</h3>
+    <p>Tùy chọn</p>
+    <br />
+    @foreach (var item in Model.Options)
+    {
+        <div>
+            <input type="radio"
+                   id="@item.option_id"
+                   name="option"
+                   value="@item.option_id"
+                   data-price="@item.price"
+                   @(Model.Options.First() == item ? "checked" : "") />
+            <label for="@item.option_id">@item.description</label>
+        </div>
+    }
+
+
+    @{
+        var percentage = 0;
+        var sale_state = -1;
+        if (Model.Options != null && Model.Options.Any())
+        {
+            if (Model.sale_id != null && Model.Sale.percentage != 0)
+            {
+                sale_state = 1;
+                percentage = (int)Model.Sale.percentage;
+            }
+            else
+            {
+                sale_state = 0;
+            }
+        }
+    }
+
+    <span id="product-price" style="color : red; font-weight: bold">@Model.Options.FirstOrDefault().price</span><p />
+    <del id="old-price"></del><span id="percentage" style="color: red"></span>
+</div>
+<div>
+    <button type="button" onclick="addToCart(@Model.product_id)">Add to Cart</button>
+</div>
+
+
+@*Add to Cart button event*@
+<script>
+     function addToCart(productId) {
+        var selectedOption = document.querySelector('input[name="option"]:checked').value;
+        var data = {
+            product_id: productId,
+            option_id: selectedOption
+        };
+
+        fetch('@Url.Action("AddToCart", "Home")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '@Html.AntiForgeryToken()'
+            },
+            body: JSON.stringify(data)
+        })
+             .then(response => response.json())
+             .then(data => {
+                 if (data.success) {
+                     alert(data.message);
+                 } else {
+                     alert(data.message);
+                 }
+             })
+             .catch(error => console.error('Error:', error));
+
+    }
+</script>
+<script>
+    var images = @Html.Raw(Json.Encode(images));
+    var currentIndex = 0;
+
+    function showImage(url, index) {
+        document.getElementById('largeImage').src = url;
+        currentIndex = index;
+        updateActiveThumbnail();
+    }
+
+    function prevImage() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            document.getElementById('largeImage').src = images[currentIndex];
+            updateActiveThumbnail();
+        }
+    }
+
+    function nextImage() {
+        if (currentIndex < images.length - 1) {
+            currentIndex++;
+            document.getElementById('largeImage').src = images[currentIndex];
+            updateActiveThumbnail();
+        }
+    }
+
+    function updateActiveThumbnail() {
+        var thumbnails = document.getElementsByClassName('thumbnail');
+        for (var i = 0; i < thumbnails.length; i++) {
+            thumbnails[i].classList.remove('active');
+        }
+        thumbnails[currentIndex].classList.add('active');
+    }
+</script>
+<script>
+    // Lắng nghe sự kiện onload để chạy khi trang đã tải xong
+    window.onload = function () {
+        // Lấy giá mặc định khi trang tải lần đầu tiên
+        var selectedPrice = document.querySelector('input[name="option"]:checked')?.getAttribute('data-price');
+
+        if (selectedPrice) {
+            // Kiểm tra tình trạng giảm giá (sale_state)
+            if (@sale_state == -1) {
+                document.getElementById('product-price').textContent = "Ngừng kinh doanh";
+            }
+            else if (@sale_state == 0) {
+                document.getElementById('product-price').textContent = "Giá: " + selectedPrice;
+            }
+            else if (@sale_state == 1) {
+                document.getElementById('product-price').textContent = "Giá: " + (selectedPrice * (100 - @percentage) / 100);
+                document.getElementById('old-price').textContent = selectedPrice;
+                document.getElementById('percentage').textContent = " -" + @percentage + "%";
+            }
+        }
+
+        // Lắng nghe sự kiện thay đổi trên các radio button
+        document.querySelectorAll('input[name="option"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                var selectedPrice = document.querySelector('input[name="option"]:checked').getAttribute('data-price');
+
+                if (@sale_state == -1) {
+                    document.getElementById('product-price').textContent = "Ngừng kinh doanh";
+                }
+                else if (@sale_state == 0) {
+                    document.getElementById('product-price').textContent = "Giá: " + selectedPrice;
+                }
+                else if (@sale_state == 1) {
+                    document.getElementById('product-price').textContent = "Giá: " + (selectedPrice * (100 - @percentage) / 100);
+                    document.getElementById('old-price').textContent = selectedPrice;
+                    document.getElementById('percentage').textContent = " -" + @percentage + "%";
+                }
+            });
+        });
+    };
+</script>
+
+
+<style>
+    .image-gallery {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-left: auto; /* Căn về lề trái */
+    }
+
+    .main-image img {
+        width: 500px;
+        height: 400px;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .thumbnail-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0 5px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .thumbnail.active {
+            border: 2px solid #007bff;
+            transform: scale(1.1);
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+    .prev-btn, .next-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 10px;
+    }
+
+    .product-specification {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .product-table {
+        width: 50%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+        .product-table th, .product-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .product-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: left;
+        }
+</style>

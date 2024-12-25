@@ -1,0 +1,142 @@
+﻿@model test1.Models.Product_Specification
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Edit Product Specification";
+}
+
+<h2>Edit Product Specification</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Product Specification</h4>
+    <hr />
+    @Html.ValidationSummary(true)
+
+    <!-- Hidden fields for specification_id and product_id -->
+    @Html.HiddenFor(model => model.specification_id)
+    @Html.HiddenFor(model => model.product_id)
+
+    <!-- Table Layout -->
+    <table class="table table-bordered product-table">
+        <!-- OS -->
+        <tr>
+            <th>Operating System</th>
+            <td>
+                @Html.EditorFor(model => model.os, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.os, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- CPU -->
+        <tr>
+            <th>CPU</th>
+            <td>
+                @Html.EditorFor(model => model.cpu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cpu, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- GPU -->
+        <tr>
+            <th>GPU</th>
+            <td>
+                @Html.EditorFor(model => model.gpu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.gpu, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- RAM -->
+        <tr>
+            <th>RAM</th>
+            <td>
+                @Html.EditorFor(model => model.ram, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ram, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- ROM -->
+        <tr>
+            <th>ROM</th>
+            <td>
+                @Html.EditorFor(model => model.rom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.rom, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- Camera -->
+        <tr>
+            <th>CAMERA</th>
+            <td>
+                @Html.EditorFor(model => model.camera, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.camera, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- Screen -->
+        <tr>
+            <th>DISPLAY SCREEN</th>
+            <td>
+                @Html.EditorFor(model => model.screen, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.screen, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- Battery -->
+        <tr>
+            <th>BATTERY</th>
+            <td>
+                @Html.EditorFor(model => model.battery, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.battery, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+
+        <!-- Charger -->
+        <tr>
+            <th>CHARGER</th>
+            <td>
+                @Html.EditorFor(model => model.charger, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.charger, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    </table>
+    <br />
+    <!-- Submit Button -->
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+    <button type="button" onclick="window.location.href='@Url.Action("Edit", "Admin", new {id = Model.product_id})'">Back to Edit</button>
+</div>
+
+    <style>
+        table th {
+            text-align: left;
+            padding-right: 10px;
+            vertical-align: middle;
+            width: 30%;
+        }
+        table td .form-control {
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px; 
+        }
+
+
+        .form-group {
+            text-align: center;
+        }
+
+    </style>
+}

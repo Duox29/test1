@@ -1,0 +1,390 @@
+﻿/* Cấu trúc chính */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    overflow: hidden; /* Ẩn thanh cuộn của body */
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: row; /* Sắp xếp ngang */
+    width: 100%;
+    height: 100vh; /* Đặt chiều cao cho container */
+}
+
+.admin-panel {
+    position: relative;
+    z-index: 2; /* Đảm bảo admin panel được hiển thị trên cùng */
+}
+
+.dashboard {
+    position: relative;
+    z-index: 1; /* Đảm bảo dashboard ở dưới admin panel */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px; /* Chiều rộng của sidebar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Chiều cao của sidebar */
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    transition: width 0.3s ease; /* Thêm hiệu ứng chuyển động khi thay đổi chiều rộng */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung vượt quá chiều cao */
+}
+
+    .sidebar h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+            .sidebar ul li a {
+                color: white;
+                text-decoration: none;
+                display: block;
+                padding: 10px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                .sidebar ul li a:hover {
+                    background-color: #575757;
+                }
+
+/* Nội dung chính */
+.main-content {
+    margin-left: 250px; /* Để lại không gian cho sidebar */
+    padding: 20px;
+    width: calc(100% - 250px); /* Đảm bảo chiều rộng chính xác */
+    overflow-y: auto; /* Cho phép cuộn dọc nếu nội dung vượt quá chiều cao */
+    height: calc(100vh - 40px); /* Chiều cao tối đa cho nội dung */
+}
+
+/* Thống kê */
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-item {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    flex: 1;
+}
+
+    .stat-item h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .stat-item p {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #555;
+    }
+
+/* Quản lý sản phẩm */
+.product-management {
+    margin-top: 20px;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .product-table th, .product-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .product-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .product-table td button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .edit-btn {
+        background-color: #007bff;
+        color: white;
+    }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .product-table td .delete-btn {
+        background-color: #dc3545;
+        color: white;
+        margin-left: 5px;
+
+    }
+
+
+        .product-table td .delete-btn:hover {
+            background-color: #bd2130;
+        }
+
+        /* Quản lý đơn hàng */
+        .order-management {
+    margin-top: 20px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .order-table th, .order-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .order-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .order-table td button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .order-table td .update-btn {
+        background-color: #ffc107; /* Màu vàng */
+        color: white;
+    }
+
+        .order-table td .update-btn:hover {
+            background-color: #e0a800; /* Màu vàng đậm khi hover */
+        }
+
+    .order-table td .view-btn {
+        background-color: #007bff; /* Màu xanh dương */
+        color: white;
+    }
+
+        .order-table td .view-btn:hover {
+            background-color: #0056b3; /* Màu xanh dương đậm khi hover */
+        }
+
+/* Quản lý doanh thu */
+.revenue-summary {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.revenue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .revenue-table th, .revenue-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .revenue-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .revenue-table td .details-btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        background-color: #28a745; /* Màu xanh lá */
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .revenue-table td .details-btn:hover {
+            background-color: #218838; /* Màu xanh lá đậm khi hover */
+        }
+
+/* Quản lý người dùng */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .user-table th, .user-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .user-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .user-table td .action-btns {
+        display: flex;
+        justify-content: space-around;
+    }
+
+        .user-table td .action-btns button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .user-table td .action-btns button.edit-btn {
+                background-color: #ffc107; /* Màu vàng */
+            }
+
+                .user-table td .action-btns button.edit-btn:hover {
+                    background-color: #e0a800; /* Màu vàng đậm khi hover */
+                }
+
+            .user-table td .action-btns button.delete-btn {
+                background-color: #dc3545; /* Màu đỏ */
+            }
+
+                .user-table td .action-btns button.delete-btn:hover {
+                    background-color: #c82333; /* Màu đỏ đậm khi hover */
+                }
+
+            .user-table td .action-btns button.activate-btn {
+                background-color: #28a745; /* Màu xanh lá */
+            }
+
+                .user-table td .action-btns button.activate-btn:hover {
+                    background-color: #218838; /* Màu xanh lá đậm khi hover */
+                }
+
+/* Quản lý danh mục */
+.category-management {
+    margin-top: 20px;
+}
+
+.category-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .category-table th, .category-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .category-table th {
+        background-color: #f2f2f2; /* Màu nền cho tiêu đề bảng */
+        color: #333; /* Màu chữ cho tiêu đề bảng */
+    }
+
+    .category-table td {
+        background-color: #fff; /* Màu nền cho các ô dữ liệu */
+    }
+
+        /* Nút Edit */
+        .category-table td .edit-btn {
+            background-color: #ffc107; /* Màu vàng */
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .category-table td .edit-btn:hover {
+                background-color: #e0a800; /* Màu vàng đậm khi hover */
+            }
+
+        /* Nút Delete */
+        .category-table td .delete-btn {
+            background-color: #dc3545; /* Màu đỏ */
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .category-table td .delete-btn:hover {
+                background-color: #c82333; /* Màu đỏ đậm khi hover */
+            }
+
+/* Nút thêm danh mục */
+.btn {
+    background-color: #28a745; /* Màu xanh lá */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+    .btn:hover {
+        background-color: #218838; /* Màu xanh lá đậm khi hover */
+    }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .category-table th, .category-table td {
+        font-size: 14px; /* Giảm kích thước chữ trên màn hình nhỏ */
+    }
+
+    .btn {
+        padding: 8px 12px; /* Giảm kích thước nút trên màn hình nhỏ */
+    }
+
+    .sidebar {
+        width: 150px; /* Giảm chiều rộng của sidebar trên màn hình nhỏ */
+    }
+
+    .main-content {
+        margin-left: 170px; /* Cập nhật lại margin cho main content */
+    }
+
+    .stats {
+        flex-direction: column; /* Đặt các stat item theo cột trên màn hình nhỏ */
+    }
+
+    .stat-item {
+        margin-bottom: 20px; /* Thêm khoảng cách giữa các stat item */
+    }
+}

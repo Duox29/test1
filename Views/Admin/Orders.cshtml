@@ -1,0 +1,167 @@
+﻿@model IEnumerable<test1.Models.Order>
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+
+<div class="search-container mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <select id="searchType" class="form-control">
+                <option value="">Select Search Type</option>
+                <option value="ID">Search by Order ID</option>
+                <option value="CustomerID">Search by Customer ID</option>
+                <option value="OrderDate">Search by Order Date</option>
+                <option value="Status">Search by Status</option>
+            </select>
+        </div>
+        <br />
+        <div class="col-md-3">
+            <input type="text" id="searchTerm" class="form-control" placeholder="Enter search term" />
+            <select id="statusDropdown" class="form-control" style="display:none;">
+                <option value="">Select Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Shipping">Shipping</option>
+                <option value="Received">Received</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" id="orderDateInput" class="form-control" style="display:none;" />
+        </div>
+        <br />
+        <div class="col-md-3">
+            <button id="searchButton" class="btn btn-primary mr-2">Search</button>
+            <button id="resetButton" class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+</div>
+
+<h2>Order</h2>
+<p>
+    <button type="button" onclick="window.location.href='@Url.Action("Create", "Orders")'">Create new Order</button>
+</p>
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer ID</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Shipping Address</th>
+            <th>Payment Method</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="orderTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.order_id)</td>
+                <td>@Html.DisplayFor(modelItem => item.user_id)</td>
+                <td>@Html.DisplayFor(modelItem => item.order_date)</td>
+                <td>@Html.DisplayFor(modelItem => item.status)</td>
+                <td>@Html.DisplayFor(modelItem => item.shipping_address)</td>
+                <td>@Html.DisplayFor(modelItem => item.payment_method)</td>
+                <td>
+                    <button type="button" onclick="window.location.href='@Url.Action("Edit", "Orders", new {id = item.order_id})'">Edit</button>
+                    <button type="button" onclick="window.location.href='@Url.Action("Details", "Orders", new {id = item.order_id})'">Details</button>
+                    <button type="button" onclick="window.location.href='@Url.Action("Delete", "Orders", new {id = item.order_id})'">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Dynamic input field based on search type
+            $('#searchType').change(function() {
+                var selectedType = $(this).val();
+
+                // Hide all additional inputs first
+                $('#orderDateInput').hide();
+                $('#searchTerm').hide();
+                $('#statusDropdown').hide();
+
+                // Show appropriate input based on search type
+                if (selectedType === 'OrderDate') {
+                    $('#orderDateInput').show();
+                } else if (selectedType === 'Status') {
+                    $('#statusDropdown').show();
+                } else {
+                    $('#searchTerm').show();
+                }
+            });
+
+            // Search button click handler
+            $('#searchButton').on('click', function() {
+                var searchType = $('#searchType').val();
+                var searchTerm = '';
+
+                // Determine search term based on type
+                if (searchType === 'OrderDate') {
+                    searchTerm = $('#orderDateInput').val();
+                } else if (searchType === 'Status') {
+                    searchTerm = $('#statusDropdown').val();
+                } else {
+                    searchTerm = $('#searchTerm').val();
+                }
+
+                // Validate search inputs
+                if (!searchType) {
+                    alert('Please select a search type');
+                    return;
+                }
+
+                if (!searchTerm) {
+                    alert('Please enter or select a search term');
+                    return;
+                }
+
+                // Perform AJAX search
+                $.ajax({
+                    url: '@Url.Action("Orders", "Admin")',
+                    type: 'GET',
+                    data: {
+                        searchType: searchType,
+                        searchTerm: searchTerm
+                    },
+                    success: function(result) {
+                        // Replace table body with search results
+                        $('#orderTableBody').html($(result).find('#orderTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while searching');
+                    }
+                });
+            });
+
+            // Reset button click handler
+            $('#resetButton').on('click', function() {
+                // Reset dropdown and search inputs
+                $('#searchType').val('');
+                $('#searchTerm').val('');
+                $('#orderDateInput').val('');
+                $('#statusDropdown').val('');
+
+                // Hide all input fields
+                $('#orderDateInput, #searchTerm, #statusDropdown').hide();
+
+                // Reload full order list
+                $.ajax({
+                    url: '@Url.Action("Orders", "Admin")',
+                    type: 'GET',
+                    success: function(result) {
+                        $('#orderTableBody').html($(result).find('#orderTableBody').html());
+                    },
+                    error: function() {
+                        alert('An error occurred while resetting');
+                    }
+                });
+            });
+        });
+    </script>
+}

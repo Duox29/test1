@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Image Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Product Images</h2>
+
+<div>
+    <!-- Hiển thị ảnh preview (nếu có) -->
+    <h4>Preview Image</h4>
+    @if (!string.IsNullOrEmpty(ViewBag.ImagePreview))
+    {
+        <div class="image-container">
+            <img src="@ViewBag.ImagePreview" alt="Product Preview" class="preview-image" />
+        </div>
+    }
+    else
+    {
+        <p>No preview image available.</p>
+    }
+</div>
+
+<div>
+    <!-- Hiển thị các ảnh sản phẩm -->
+    <h4>Product Images</h4>
+    @if (ViewBag.Images != null && ((List<string>)ViewBag.Images).Any())
+    {
+        <ul class="product-images">
+            @foreach (var imageUrl in (List<string>)ViewBag.Images)
+            {
+                <li class="product-image-item">
+                    <div class="image-container">
+                        <img src="@imageUrl" alt="Product Image" class="product-image" />
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No product images available.</p>
+    }
+</div>
+
+<button type="button" onclick="window.location.href='@Url.Action("Upload", "Image", new { id = ViewBag.product_id })'">Upload Image</button>
+<button type="button" onclick="window.location.href='@Url.Action("Edit", "Admin", new {id = ViewBag.product_id})'">Back to Edit</button>
+
+<!-- CSS for styling the images -->
+<style>
+    .product-images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Khoảng cách giữa các ảnh */
+        list-style: none;
+        padding: 0;
+    }
+
+    .product-image-item {
+        width: calc(20% - 10px); /* Mỗi ảnh chiếm 20% chiều rộng (5 ảnh trên 1 hàng) */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .product-image {
+        width: 100%; /* Đảm bảo ảnh chiếm hết chiều rộng của thẻ cha */
+        height: auto;
+        max-width: 150px; /* Đặt giới hạn chiều rộng tối đa cho mỗi ảnh */
+    }
+
+    .preview-image {
+        width: 100%;
+        height: auto;
+        max-width: 300px; /* Giới hạn chiều rộng cho ảnh preview */
+    }
+</style>

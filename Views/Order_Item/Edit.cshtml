@@ -1,0 +1,93 @@
+﻿@model test1.Models.Order_Item
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Order_Item</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.order_item_id)
+        @Html.HiddenFor(model => model.order_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.product_id, "product_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.product_id, new { htmlAttributes = new { @class = "form-control", id = "productInput" } })
+
+                @Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Dropdown option_id (cập nhật thông qua AJAX) -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.option_id, "Option", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.option_id, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "optionDropdown" })
+                @Html.ValidationMessageFor(model => model.option_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <button type="button" onclick="window.location.href='@Url.Action("Index", "Order_Item", new {id = Model.order_id})'">Back to Order Item list</button>
+</div>
+<script>
+    $(document).ready(function () {
+        // Hàm để tải Options dựa trên product_id
+        function loadOptions(productId) {
+            $.ajax({
+                url: '@Url.Action("GetOptionsByProductId")', // Tên của action method trong controller
+                type: 'GET',
+                data: { productId: productId },
+                success: function (data) {
+                    $('#optionDropdown').empty(); // Xóa tất cả các mục trong dropdown
+                    $.each(data, function (i, option) {
+                        $('#optionDropdown').append($('<option>', {
+                            value: option.option_id,
+                            text: option.description
+                        }));
+                    });
+                },
+                error: function () {
+                }
+            });
+        }
+
+        // Khi người dùng thay đổi product_id, gọi lại AJAX để cập nhật Options
+        $('#productInput').on('input', function () {
+            var productId = $(this).val();
+            loadOptions(productId);
+        });
+
+        // Hàm onload: Nếu có product_id đã được chọn từ model hoặc giá trị mặc định,
+        // tải options cho product đó khi trang load.
+        var initialProductId = $('#productInput').val();
+        if (initialProductId) {
+            loadOptions(initialProductId); // Gọi AJAX với product_id ban đầu
+        }
+    });
+</script>

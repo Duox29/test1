@@ -1,0 +1,78 @@
+﻿@model test1.Models.Order
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit Order for UserID: @Model.user_id</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Order</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.order_id)
+
+    <table class="table table-bordered product-table">
+        @Html.Hidden("user_id", Model.user_id)
+
+        <tr>
+            <th>Order Date</th>
+            <td>@Html.EditorFor(model => model.order_date, new { htmlAttributes = new { @class = "form-control" } })</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+                @Html.DropDownListFor(model => model.status,
+                    new SelectList(new[] {
+                        new { Value = "Pending", Text = "Pending" },
+                        new { Value = "Shipping", Text = "Shipping" },
+                        new { Value = "Received", Text = "Received" }
+                    }, "Value", "Text", "Pending"),
+                    new { @class = "form-control" })
+            </td>
+        </tr>
+
+        <tr>
+            <th>Shipping Address</th>
+            <td>@Html.EditorFor(model => model.shipping_address, new { htmlAttributes = new { @class = "form-control" } })</td>
+        </tr>
+        <tr>
+            <th>Payment Method</th>
+            <td>@Html.EditorFor(model => model.payment_method, new { htmlAttributes = new { @class = "form-control" } })</td>
+        </tr>
+    </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <button type="button" onclick="window.location.href='@Url.Action("Index", "Order_Item", new {id = Model.order_id})'">Edit Order Item</button>
+    <button type="button" onclick="window.location.href='@Url.Action("Orders", "Admin")'">Back to list</button>
+</div>
+
+<style>
+    .table th, .table td {
+        text-align: left;
+        padding: 10px;
+        vertical-align: middle;
+    }
+
+    .table th {
+        width: 30%;
+        background-color: #f2f2f2;
+    }
+
+    .table td .form-control {
+        width: 90%;
+    }
+</style>

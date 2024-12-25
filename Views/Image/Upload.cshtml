@@ -1,0 +1,64 @@
+﻿@model test1.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Upload Images for Product";
+}
+
+<h2>Upload Images for Product @ViewBag.product_id</h2>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+@using (Html.BeginForm("Upload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="product_id" value="@ViewBag.product_id" />
+    <div class="form-group">
+        <label for="previewImage">Product Preview Image (1 image only)</label>
+        <input type="file" id="previewImage" name="previewImage" accept="image/*" required />
+        <div id="previewImagePreview"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="productImages">Product Images (up to 5 images)</label>
+        <input type="file" id="productImages" name="productImages" accept="image/*" multiple />
+        <div id="productImagesPreview"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload</button>
+}
+<button type="button" onclick="window.location.href='@Url.Action("Image_Management", "Image", new {id = ViewBag.product_id})'">Back</button>
+<script>
+    // Hiển thị ảnh preview khi chọn file
+    document.getElementById('previewImage').onchange = function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('previewImagePreview').innerHTML = '<img src="' + e.target.result + '" style="max-width: 300px; max-height: 300px;"/>';
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Hiển thị ảnh sản phẩm khi chọn file
+    document.getElementById('productImages').onchange = function (event) {
+        var files = event.target.files;
+        var previewContainer = document.getElementById('productImagesPreview');
+        previewContainer.innerHTML = ''; // Clear previous previews
+
+        for (var i = 0; i < files.length && i < 5; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                previewContainer.innerHTML += '<img src="' + e.target.result + '" style="max-width: 150px; max-height: 150px; margin: 5px;" />';
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+</script>
