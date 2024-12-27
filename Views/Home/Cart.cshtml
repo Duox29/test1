@@ -20,8 +20,8 @@
             <a href="@Url.Action("ItemDetail","Home", new {id = item.product_id})" style="text-decoration: none">
                 <span class="cart-item-name">@item.Product.brand @item.Product.name @item.Product.model</span>
             </a>
-                <p class="cart-item-description">@item.Option.description</p>
-                <p class="cart-item-sale-description">Khuyến mãi: @item.Product.Sale.description</p>
+            <p class="cart-item-description">@item.Option.description</p>
+            <p class="cart-item-sale-description">Khuyến mãi: @item.Product.Sale.description</p>
         </div>
 
         <!-- Phần giá và điều khiển số lượng -->
@@ -34,10 +34,10 @@
                 {
                     var newPrice = ((decimal)price * (1 - (decimal)item.Product.Sale.percentage / 100)).ToString("#,0");
                     var percentage = "-" + item.Product.Sale.percentage.ToString() + "%";
-                        <div class="cart-item-price">
-                            <p class="original-price"><del>@originalPrice đ</del></p> <span style="color: red">@percentage</span>
-                            <p class="new-price" style="font-weight: bold; color: red">@newPrice đ</p>
-                        </div>
+                    <div class="cart-item-price">
+                        <p class="original-price"><del>@originalPrice đ</del></p> <span style="color: red">@percentage</span>
+                        <p class="new-price" style="font-weight: bold; color: red">@newPrice đ</p>
+                    </div>
                 }
                 else
                 {
@@ -48,20 +48,21 @@
                 }
             }
 
-        <div class="cart-item-quantity">
-            <div class="quantity-control">
-                <button type="button" class="btn-decrease" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', -1); calculateTotalCost();"> - </button>
-                <input type="number" id="quantity-@item.cart_item_id" value="@item.quantity" min="1" class="quantity-input" readonly />
-                <button type="button" class="btn-increase" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', 1); calculateTotalCost();"> + </button>
+            <div class="cart-item-quantity">
+                <div class="quantity-control">
+                    <button type="button" class="btn-decrease" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', -1); calculateTotalCost();"> - </button>
+                    <input type="number" id="quantity-@item.cart_item_id" value="@item.quantity" min="1" class="quantity-input" readonly />
+                    <button type="button" class="btn-increase" data-item-id="@item.cart_item_id" onclick="updateQuantity('@item.cart_item_id', 1); calculateTotalCost();"> + </button>
+                </div>
+                <button type="button" class="btn-remove" data-item-id="@item.cart_item_id" onclick="removeItemFromCart('@item.cart_item_id')">Xóa</button>
             </div>
-            <button type="button" class="btn-remove" data-item-id="@item.cart_item_id" onclick="removeItemFromCart('@item.cart_item_id')">Xóa</button>
-        </div>
         </div>
     </div>
 }
 
 <p style="text-align: right">Thành tiền: <span id="total-cost"></span></p>
 
+<button type="button" class="edit-btn" onclick="window.location.href='@Url.Action("ConfirmCart","Home", new {id = Model.FirstOrDefault().cart_id})'">Đặt hàng</button>
 <script>
     // Tính tổng giá trị giỏ hàng
     function calculateTotalCost() {
@@ -262,5 +263,4 @@
             background-color: #ccc;
             cursor: not-allowed;
         }
-
 </style>

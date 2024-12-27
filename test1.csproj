@@ -257,6 +257,8 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\eUser.cshtml" />
+    <Content Include="Views\Home\ConfirmCart.cshtml" />
+    <Content Include="Views\Home\Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

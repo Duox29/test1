@@ -1,0 +1,44 @@
+﻿@model IEnumerable<test1.Models.Order>
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Order</h2>
+
+
+<table class="order-table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Shipping Address</th>
+            <th>Payment Method</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="orderTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.order_id)</td>
+                <td>@Html.DisplayFor(modelItem => item.User.username)</td>
+                <td>@Html.DisplayFor(modelItem => item.order_date)</td>
+                <td>
+                    @{
+                        string status = item.status ?? "Unknown";
+                    }
+                    @status
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.shipping_address)</td>
+                <td>@Html.DisplayFor(modelItem => item.payment_method)</td>
+                <td>
+                    <button type="button" class="view-btn" onclick="window.location.href='@Url.Action("Details", "Admin", new { id = item.order_id })'">Details</button>
+                    <button type="button" onclick="window.location.href='@Url.Action("Delete", "Admin", new { id = item.order_id })'">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

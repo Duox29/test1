@@ -63,7 +63,7 @@ namespace test1.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
                 }
             }
             return View(model);
@@ -273,5 +273,52 @@ namespace test1.Controllers
             return Json(new { success = false, message = "Không tìm thấy sản phẩm trong giỏ hàng." });
         }
 
+
+        public ActionResult ConfirmCart(int? id)
+        {
+            var cartItem = db.Cart_Items.Where(x => x.cart_id == id).ToList();
+            ViewBag.total = cartItem.Sum(x => x.Option.price * x.quantity);
+            ViewBag.cart_id = id;
+            var user = db.Carts.Where(x => x.cart_id == id).Select(c => c.User).FirstOrDefault();
+            ViewBag.CustomerName = user.first_name.ToString()+" " + user.last_name.ToString();
+            ViewBag.PhoneNumber = user.phone_number.ToString();
+            ViewBag.Address = user.address_line1.ToString();
+            return View(cartItem.ToList());
+        }
+        [HttpPost]
+        public ActionResult ConfirmOrder(string Address, string PaymentMethod, int cart_id)
+        {
+            Order order = new Order();
+            order.user_id = (int)Session["UserID"];
+            order.order_date = DateTime.Now;
+            order.status = "PENDING";
+            order.shipping_address = Address.ToString();
+            order.payment_method = PaymentMethod.ToString();
+            db.Orders.Add(order);
+            db.SaveChanges();
+            //Add cart item to order item
+            int order_id = order.order_id;
+            var cartItem = db.Cart_Items.Where(x => x.cart_id == cart_id).ToList();
+            foreach(var citem in cartItem)
+            {
+                Order_Item oitem = new Order_Item
+                {
+                    order_id = order_id,
+                    product_id = (int)citem.product_id,
+                    option_id = (int)citem.option_id,
+                    quantity = (int)citem.quantity
+                };
+                db.Order_Items.Add(oitem);
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("Order","Home", new { id = (int)Session["UserID"] });
+        }
+
+        public ActionResult Order(int? id)
+        {
+            var list_order = db.Orders.Where(x => x.user_id == id).ToList();
+            return View(list_order);
+        }
     }
 }   

@@ -3,28 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\DUOX\\source\\repos\\test1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|c:\\users\\duox\\source\\repos\\test1\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|C:\\Users\\DUOX\\source\\repos\\test1\\views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|C:\\Users\\DUOX\\source\\repos\\test1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|C:\\Users\\DUOX\\source\\repos\\test1\\assets\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:assets\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|C:\\Users\\DUOX\\source\\repos\\test1\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|c:\\users\\duox\\source\\repos\\test1\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|C:\\Users\\DUOX\\source\\repos\\test1\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|c:\\users\\duox\\source\\repos\\test1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|c:\\users\\duox\\source\\repos\\test1\\views\\home\\confirmcart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C0DDDA5E-FC9A-4A92-B291-F7F00ACDC261}|test1.csproj|solutionrelative:views\\home\\confirmcart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,76 +30,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "styles.css",
-              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Assets\\styles.css",
-              "RelativeDocumentMoniker": "Assets\\styles.css",
-              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Assets\\styles.css",
-              "RelativeToolTip": "Assets\\styles.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-12-19T03:17:43.436Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAE0AAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-19T03:16:15.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "Controllers\\UsersController.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAQwG4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-18T23:23:23.868Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Login.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
               "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Login.cshtml",
               "RelativeToolTip": "Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-18T22:43:26.619Z"
+              "WhenOpened": "2024-12-27T19:06:12.178Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Cart.cshtml",
-              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Cart.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Cart.cshtml",
-              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\Cart.cshtml",
-              "RelativeToolTip": "Views\\Home\\Cart.cshtml",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAAwJwAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-12-18T21:36:49.171Z"
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\HomeController.cs*",
+              "RelativeToolTip": "Controllers\\HomeController.cs*",
+              "ViewState": "AgIAAAUBAAAAAAAAAAASwBsBAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T18:55:12.442Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAOkAAAAAAAAAAAAtwAYBAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-18T21:36:40.049Z"
+              "Title": "ConfirmCart.cshtml",
+              "DocumentMoniker": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\ConfirmCart.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\ConfirmCart.cshtml",
+              "ToolTip": "C:\\Users\\DUOX\\source\\repos\\test1\\Views\\Home\\ConfirmCart.cshtml",
+              "RelativeToolTip": "Views\\Home\\ConfirmCart.cshtml",
+              "ViewState": "AgIAACwAAAAAAAAAAAD4vzoAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-27T18:53:35.796Z",
+              "EditorCaption": ""
             }
           ]
         }
