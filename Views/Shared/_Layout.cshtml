@@ -27,7 +27,7 @@
                     <a href="javascript:void(0)" class="dropbtn">Welcome, @Session["Username"]</a>
                     <div class="dropdown-content">
                         <a href="@Url.Action("Profile", "Home", new { id = (int)Session["UserID"] })">Profile</a>
-                        <a href="@Url.Action("Orders", "Account")">Orders</a>
+                        <a href="@Url.Action("Order", "Home", new { id = (int)Session["UserID"] })">Orders</a>
                         <a href="@Url.Action("Logout", "Home")">Logout</a>
 
                         @if (Session["Role"] != null && Session["Role"].ToString().Contains("admin"))

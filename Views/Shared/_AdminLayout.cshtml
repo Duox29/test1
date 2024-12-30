@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Admin Dashboard</title>
+    <title>@ViewBag.Title - Admin Dashboard</title> 
     <link rel="stylesheet" href="~/Assets/admin.css">
     @RenderSection("Styles", required: false)
 </head>
@@ -21,7 +21,6 @@
                     <li><a href="@Url.Action("Dashboard", "Admin")">Dashboard</a></li>
                     <li><a href="@Url.Action("Products", "Admin")">Products</a></li>
                     <li><a href="@Url.Action("Orders", "Admin")">Orders</a></li>
-                    <li><a href="@Url.Action("Revenue", "Admin")">Revenue</a></li>
                     <li><a href="@Url.Action("Index", "Users")">Users</a></li>
                     <li><a href="@Url.Action("Index", "Categories")">Categories</a></li>
                     <li><a href="@Url.Action("Index","Home")">Homepage</a></li>

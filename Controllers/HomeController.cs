@@ -59,6 +59,7 @@ namespace test1.Controllers
                     Session["UserID"] = user.user_id;
                     Session["Username"] = user.username;
                     Session["Role"] = user.role_level;
+                    user.last_login = DateTime.Now;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -291,7 +292,7 @@ namespace test1.Controllers
             Order order = new Order();
             order.user_id = (int)Session["UserID"];
             order.order_date = DateTime.Now;
-            order.status = "PENDING";
+            order.status = "Pending";
             order.shipping_address = Address.ToString();
             order.payment_method = PaymentMethod.ToString();
             db.Orders.Add(order);

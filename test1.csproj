@@ -259,6 +259,8 @@
     <Content Include="Views\Home\eUser.cshtml" />
     <Content Include="Views\Home\ConfirmCart.cshtml" />
     <Content Include="Views\Home\Order.cshtml" />
+    <Content Include="Views\Orders\UDetails.cshtml" />
+    <Content Include="Views\Orders\UDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

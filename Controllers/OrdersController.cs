@@ -131,5 +131,54 @@ namespace test1.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+        //User section
+
+        public ActionResult UDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            var order_Items = db.Order_Items.Where(o => o.order_id == id).Include(o => o.Option).Include(o => o.Order).Include(o => o.Product).ToList();
+            ViewBag.order_Items = order_Items;
+            return View(order);
+        }
+        public ActionResult UDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
+        }
+
+        [HttpPost, ActionName("UDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UDeleteConfirmed(int id)
+        {
+            Order order = db.Orders.Include(o => o.Order_Items).FirstOrDefault(o => o.order_id == id);
+
+            if (order != null)
+            {
+                db.Order_Items.RemoveRange(order.Order_Items);
+                db.Orders.Remove(order);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Order", "Home", new {id = (int)Session["UserID"] });
+        }
     }
 }

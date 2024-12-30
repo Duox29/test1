@@ -1,0 +1,151 @@
+﻿@model test1.Models.Order
+@{
+    ViewBag.Title = "UDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var orderItems = ViewBag.order_Items as List<test1.Models.Order_Item>;
+}
+<link rel="stylesheet" href="~/Assets/styles.css">
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+
+    <table class="table table-bordered product-table">
+        <tr>
+            <th>Username</th>
+            <td>@Html.DisplayFor(model => model.User.username)</td>
+        </tr>
+        <tr>
+            <th>Order Date</th>
+            <td>@Html.DisplayFor(model => model.order_date)</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>@Html.DisplayFor(model => model.status)</td>
+        </tr>
+        <tr>
+            <th>Shipping Address</th>
+            <td>@Html.DisplayFor(model => model.shipping_address)</td>
+        </tr>
+        <tr>
+            <th>Payment Method</th>
+            <td>@Html.DisplayFor(model => model.payment_method)</td>
+        </tr>
+    </table>
+</div>
+
+
+<h4>Order Items</h4>
+<table class="table table-bordered product-table">
+    <thead>
+        <tr>
+            <th>Order Item ID</th>
+            <th>Product</th>
+            <th>Option</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in orderItems)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.order_item_id)</td>
+                <td>@Html.DisplayFor(modelItem => item.Product.brand) @Html.DisplayFor(modelItem => item.Product.name) @Html.DisplayFor(modelItem => item.Product.model)</td>
+                <td>@Html.DisplayFor(modelItem => item.Option.description)</td>
+                <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button type="button" onclick="window.location.href='@Url.Action("Order", "Home", new {id = Model.user_id})'">Back to Order list</button>
+<style>
+    .table th, .table td {
+        text-align: left;
+        padding: 10px;
+    }
+
+    .table th {
+        width: 30%;
+        background-color: #f2f2f2;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #ddd;
+    }
+</style>
+
+
+<style>
+    /* Table styling */
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+        .product-table th, .product-table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd; /* Add border to each cell */
+        }
+
+        .product-table th {
+            background-color: #f4f4f4; /* Light grey background for headers */
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .product-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Alternating row colors for better readability */
+        }
+
+        .product-table tbody tr:hover {
+            background-color: #f1f1f1; /* Row highlight on hover */
+        }
+
+    /* Button styles */
+    .btn {
+        padding: 5px 10px;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+    }
+
+        .btn-info:hover {
+            background-color: #117a8b;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+</style>

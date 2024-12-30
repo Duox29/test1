@@ -314,6 +314,16 @@ namespace test1.Controllers
         //Dashboard
         public ActionResult Dashboard()
         {
+            var totalProduct = db.Products.Count();
+            ViewBag.totalProduct = totalProduct;
+            DateTime today = DateTime.Now.Date;
+            var totalOrdersToday = db.Orders.Where(x => DbFunctions.TruncateTime(x.order_date) == today).ToList();
+            ViewBag.totalOrdersToday = totalOrdersToday;
+            var totalUsers = db.Users.Count();
+            ViewBag.totalUsers = totalUsers;
+            var pendingOrders = db.Orders.Where(x => x.status.ToLower().Contains("pending")).Count();
+            ViewBag.pendingOrders = pendingOrders;
+
             return View();
         }
 

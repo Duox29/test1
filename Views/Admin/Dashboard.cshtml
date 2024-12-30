@@ -3,6 +3,90 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="container">
+    <h2 class="mt-5 mb-4 text-center">Admin Dashboard</h2>
+    <div class="row">
 
-<h2>Dashboard</h2>
+        <!-- Total Products -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Products</div>
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.totalProduct</h5>
+                    <p class="card-text">Products available in store.</p>
+                </div>
+            </div>
+        </div>
 
+        <!-- Orders Today -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Orders Today</div>
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.totalOrdersToday.Count</h5>
+                    <p class="card-text">Orders placed today.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Users -->
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Total Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.totalUsers</h5>
+                    <p class="card-text">Registered users.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Pending Orders</div>
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.pendingOrders</h5>
+                    <p class="card-text">Orders awaiting approval.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Custom CSS for Dashboard -->
+<style>
+    .card {
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+        .card .card-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card .card-body .card-title {
+            font-size: 2.5rem;
+            font-weight: bold;  
+            margin-bottom: 10px;
+        }
+
+        .card .card-text {
+            font-size: 1rem;
+        }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .row {
+        margin-bottom: 30px;
+    }
+</style>

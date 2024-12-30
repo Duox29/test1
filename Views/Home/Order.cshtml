@@ -3,7 +3,7 @@
     ViewBag.Title = "Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" href="~/Assets/styles.css">
 <h2>List Order</h2>
 
 
@@ -16,7 +16,7 @@
             <th>Status</th>
             <th>Shipping Address</th>
             <th>Payment Method</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody id="orderTableBody">
@@ -35,10 +35,60 @@
                 <td>@Html.DisplayFor(modelItem => item.shipping_address)</td>
                 <td>@Html.DisplayFor(modelItem => item.payment_method)</td>
                 <td>
-                    <button type="button" class="view-btn" onclick="window.location.href='@Url.Action("Details", "Admin", new { id = item.order_id })'">Details</button>
-                    <button type="button" onclick="window.location.href='@Url.Action("Delete", "Admin", new { id = item.order_id })'">Delete</button>
+                    <button type="button" class="view-btn" onclick="window.location.href='@Url.Action("UDetails", "Orders", new { id = item.order_id })'">Details</button>
+
+                    @if (status.ToLower() == "pending")
+                    {
+                        <button type="button" class="delete-btn" onclick="window.location.href='@Url.Action("UDelete", "Orders", new { id = item.order_id })'">Delete</button>
+                    }
                 </td>
             </tr>
         }
     </tbody>
+
 </table>
+<style>
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .order-table th, .order-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .order-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .order-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .order-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .view-btn, .delete-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .delete-btn {
+        background-color: #f44336;
+    }
+
+        .view-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
+</style>
